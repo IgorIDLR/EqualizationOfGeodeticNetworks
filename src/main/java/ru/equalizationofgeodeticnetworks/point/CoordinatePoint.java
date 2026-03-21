@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Objects;
-
+/**
+ * Класс реализации {@code abstract Point}. Хранит информацию для реализации уравнительных схем в планового представления.
+ * Поля: {@code X} - хранит информацию северного направления; {@code Y} - хранит информацию восточного направления;
+ */
 @Getter @Setter
 public class CoordinatePoint extends Point {
 

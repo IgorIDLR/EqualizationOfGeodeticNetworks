@@ -3,6 +3,10 @@ package ru.equalizationofgeodeticnetworks.point;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Класс реализации {@code abstract Point}. Хранит информацию для реализации уравнительных схем в высотном представлении.
+ * Поле {@code elevation} - хранит информацию отметки точки.
+ */
 @Getter @Setter
 public class ElevationPoint extends Point {
 

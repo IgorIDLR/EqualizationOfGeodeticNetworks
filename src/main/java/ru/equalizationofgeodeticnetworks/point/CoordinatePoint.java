@@ -9,7 +9,7 @@ import java.util.Objects;
  * Поля: {@code X} - хранит информацию северного направления; {@code Y} - хранит информацию восточного направления;
  */
 @Getter @Setter
-public class CoordinatePoint extends Point {
+public class CoordinatePoint extends AbstractPoint {
 
     private double X;
     private double Y;

@@ -1,5 +1,8 @@
 package ru.equalizationofgeodeticnetworks.measurement;
 
+import ru.equalizationofgeodeticnetworks.point.Point;
+import ru.equalizationofgeodeticnetworks.utils.Geometry;
+
 public class AngleMeasurement extends Measurement {
 
     private int idxStation, idxBack, idxForward;
@@ -48,7 +51,7 @@ public class AngleMeasurement extends Measurement {
                     alphaBack = Geometry.direction(fixedBack, X, idxStation);
                 } else {
                     // обе фиксированные
-                    alphaBack = Geometry.direction(fixedBack.x, fixedBack.y, fixedStation.x, fixedStation.y);
+                    alphaBack = Geometry.direction(fixedBack.getX(), fixedBack.getY(), fixedStation.getX(), fixedStation.getY());
                 }
             }
         }
@@ -67,7 +70,7 @@ public class AngleMeasurement extends Measurement {
                 if (idxForward >= 0) {
                     alphaForward = Geometry.direction(fixedStation, X, idxForward);
                 } else {
-                    alphaForward = Geometry.direction(fixedStation.x, fixedStation.y, fixedForward.x, fixedForward.y);
+                    alphaForward = Geometry.direction(fixedStation.getX(), fixedStation.getY(), fixedForward.getX(), fixedForward.getY());
                 }
             }
         }

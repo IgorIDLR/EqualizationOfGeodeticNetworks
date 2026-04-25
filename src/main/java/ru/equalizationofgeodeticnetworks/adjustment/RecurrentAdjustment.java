@@ -1,7 +1,11 @@
 package ru.equalizationofgeodeticnetworks.adjustment;
 
+import ru.equalizationofgeodeticnetworks.logger.Logging;
+import ru.equalizationofgeodeticnetworks.measurement.Measurement;
+
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**

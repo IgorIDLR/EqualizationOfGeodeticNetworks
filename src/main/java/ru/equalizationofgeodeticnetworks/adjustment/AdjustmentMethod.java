@@ -1,5 +1,9 @@
 package ru.equalizationofgeodeticnetworks.adjustment;
 
+import ru.equalizationofgeodeticnetworks.measurement.Measurement;
+
+import java.util.List;
+
 @FunctionalInterface
 public interface AdjustmentMethod {
     /**

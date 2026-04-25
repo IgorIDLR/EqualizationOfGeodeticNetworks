@@ -8,7 +8,7 @@ import lombok.Setter;
  * Поле {@code elevation} - хранит информацию отметки точки.
  */
 @Getter @Setter
-public class ElevationPoint extends Point {
+public class ElevationPoint extends AbstractPoint {
 
     private double elevation;
 

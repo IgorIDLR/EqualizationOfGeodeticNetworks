@@ -1,6 +1,6 @@
 package ru.equalizationofgeodeticnetworks.support;
 
-import ru.equalizationofgeodeticnetworks.point.Point;
+import ru.equalizationofgeodeticnetworks.model.point.Point;
 import ru.equalizationofgeodeticnetworks.utils.constantsUtils.MathConstants;
 
 public class SupportDegreesConverter {

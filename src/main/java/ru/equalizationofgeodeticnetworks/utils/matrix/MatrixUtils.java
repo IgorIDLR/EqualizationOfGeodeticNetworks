@@ -1,99 +1,52 @@
 package ru.equalizationofgeodeticnetworks.utils.matrix;
 
-import ru.equalizationofgeodeticnetworks.logger.Logging;
+import lombok.experimental.UtilityClass;
+import org.ejml.data.DMatrixRMaj;
+import org.ejml.dense.row.CommonOps_DDRM;
+import org.ejml.dense.row.factory.LinearSolverFactory_DDRM;
+import org.ejml.interfaces.linsol.LinearSolverDense;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+@UtilityClass
 public class MatrixUtils {
 
-    private static final Logger LOG = Logging.getLogger(MatrixUtils.class);
-    private static final double EPS = 1e-18;
-
-    private MatrixUtils() {}
-
-    public static double[] solveLinearSystem(double[][] N, double[] b) {
-        int n = b.length;
-        double[][] a = new double[n][n + 1];
-        for (int i = 0; i < n; i++) {
-            System.arraycopy(N[i], 0, a[i], 0, n);
-            a[i][n] = b[i];
-        }
-
-        for (int col = 0; col < n; col++) {
-            int maxRow = col;
-            for (int row = col + 1; row < n; row++) {
-                if (Math.abs(a[row][col]) > Math.abs(a[maxRow][col]))
-                    maxRow = row;
-            }
-            double[] temp = a[col];
-            a[col] = a[maxRow];
-            a[maxRow] = temp;
-
-            double pivot = a[col][col];
-            if (Math.abs(pivot) < EPS) {
-                Logging.log(LOG, Level.SEVERE, "Матрица вырождена при решении СЛАУ");
-                throw new RuntimeException("Матрица вырождена");
-            }
-
-            for (int j = col; j <= n; j++)
-                a[col][j] /= pivot;
-
-            for (int row = col + 1; row < n; row++) {
-                double factor = a[row][col];
-                for (int j = col; j <= n; j++)
-                    a[row][j] -= factor * a[col][j];
-            }
-        }
-
-        double[] x = new double[n];
-        for (int i = n - 1; i >= 0; i--) {
-            x[i] = a[i][n];
-            for (int j = i + 1; j < n; j++)
-                x[i] -= a[i][j] * x[j];
-        }
-        return x;
+    public static double[] solveLinearSystem(double[][] A, double[] b) {
+        DMatrixRMaj matrix = new DMatrixRMaj(A);
+        DMatrixRMaj vector = new DMatrixRMaj(b.length, 1, true, b);
+        LinearSolverDense<DMatrixRMaj> solver = LinearSolverFactory_DDRM.linear(matrix.getNumRows());
+        if (!solver.setA(matrix)) throw new RuntimeException("Матрица вырождена");
+        DMatrixRMaj x = new DMatrixRMaj(matrix.getNumCols(), 1);
+        solver.solve(vector, x);
+        return x.getData();
     }
 
     public static double[][] invertMatrix(double[][] A) {
-        int n = A.length;
-        double[][] aug = new double[n][2 * n];
-        for (int i = 0; i < n; i++) {
-            System.arraycopy(A[i], 0, aug[i], 0, n);
-            aug[i][n + i] = 1.0;
-        }
+        DMatrixRMaj matrix = new DMatrixRMaj(A);
+        DMatrixRMaj inv = new DMatrixRMaj(matrix.getNumRows(), matrix.getNumCols());
+        if (!CommonOps_DDRM.invert(matrix, inv)) throw new RuntimeException("Матрица вырождена");
+        return inv.getData();
+    }
 
-        for (int col = 0; col < n; col++) {
-            int maxRow = col;
-            for (int row = col + 1; row < n; row++) {
-                if (Math.abs(aug[row][col]) > Math.abs(aug[maxRow][col]))
-                    maxRow = row;
-            }
-            double[] temp = aug[col];
-            aug[col] = aug[maxRow];
-            aug[maxRow] = temp;
+    public static double[] multiply(double[][] A, double[] b) {
+        DMatrixRMaj mat = new DMatrixRMaj(A);
+        DMatrixRMaj vec = new DMatrixRMaj(b.length, 1, true, b);
+        DMatrixRMaj res = new DMatrixRMaj(mat.getNumRows(), 1);
+        CommonOps_DDRM.mult(mat, vec, res);
+        return res.getData();
+    }
 
-            double pivot = aug[col][col];
-            if (Math.abs(pivot) < EPS) {
-                Logging.log(LOG, Level.SEVERE, "Матрица вырождена при обращении");
-                throw new RuntimeException("Матрица вырождена");
-            }
+    public static double[][] multiply(double[][] A, double[][] B) {
+        DMatrixRMaj matA = new DMatrixRMaj(A);
+        DMatrixRMaj matB = new DMatrixRMaj(B);
+        DMatrixRMaj res = new DMatrixRMaj(matA.getNumRows(), matB.getNumCols());
+        CommonOps_DDRM.mult(matA, matB, res);
+        return res.getData();
+    }
 
-            for (int j = 0; j < 2 * n; j++)
-                aug[col][j] /= pivot;
-
-            for (int row = 0; row < n; row++) {
-                if (row != col) {
-                    double factor = aug[row][col];
-                    for (int j = 0; j < 2 * n; j++)
-                        aug[row][j] -= factor * aug[col][j];
-                }
-            }
-        }
-
-        double[][] inv = new double[n][n];
-        for (int i = 0; i < n; i++)
-            System.arraycopy(aug[i], n, inv[i], 0, n);
-        return inv;
+    public static void multiply(double[] x, double[][] A, double[] y) {
+        DMatrixRMaj vec = new DMatrixRMaj(x.length, 1, true, x);
+        DMatrixRMaj mat = new DMatrixRMaj(A);
+        DMatrixRMaj res = new DMatrixRMaj(A.length, 1);
+        CommonOps_DDRM.mult(mat, vec, res);
+        System.arraycopy(res.getData(), 0, y, 0, y.length);
     }
 }

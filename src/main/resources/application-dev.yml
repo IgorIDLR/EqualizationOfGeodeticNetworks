@@ -1,0 +1,10 @@
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/geodesy_dev
+  jpa:
+    show-sql: true
+geodesy:
+  adjustment:
+    max-iter: 5
+    eps: 1e-3

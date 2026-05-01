@@ -1,0 +1,14 @@
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:postgresql://postgres-service:5432/geodesy
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+geodesy:
+  adjustment:
+    max-iter: 50
+    eps: 1e-6
+    use-sparse: true
+  solver:
+    conjugate-gradient:
+      max-iter: 500

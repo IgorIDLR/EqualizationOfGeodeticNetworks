@@ -1,0 +1,75 @@
+spring:
+  profiles:
+    active: polygonometry
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=1000, expireAfterWrite=10m
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+  datasource:
+    url: jdbc:postgresql://localhost:5432/geodesy
+    username: geodesy_user
+    password: geodesy_pass
+    hikari:
+      maximumPoolSize: 10
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+info:
+  app:
+    name: equalization-of-geodetic-networks
+    version: @revision@
+    description: Рекуррентное уравнивание геодезических сетей
+    build-timestamp: @build.timestamp@
+
+geodesy:
+  adjustment:
+    eps: 1e-4
+    max-iter: 20
+    use-robust: false
+    robust-method: HUBER
+    use-sparse: true
+  weight:
+    polygonometry:
+      angle-weight: 4.25e10
+      sigma-dist-unit: 0.02
+    leveling:
+      height-weight: 1.0
+  robust:
+    huber-c: 1.345
+    tukey-c: 4.685
+  free-network:
+    fixation-type: FIX_CENTROID
+  graph:
+    enabled: true
+  solver:
+    conjugate-gradient:
+      max-iter: 200
+      tolerance: 1e-8
+    max-network-size-dense: 500
+  reliability:
+    alpha: 0.05
+    beta: 0.80
+    lambda-calculated: false
+    lambda-fixed: 12.0
+
+logging:
+  level:
+    ru.equalizationofgeodeticnetworks: DEBUG

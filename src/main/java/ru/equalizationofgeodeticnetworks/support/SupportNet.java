@@ -1,8 +1,7 @@
 package ru.equalizationofgeodeticnetworks.support;
 
-import ru.equalizationofgeodeticnetworks.adjustment.AdjustmentMethod;
 import ru.equalizationofgeodeticnetworks.network.Network;
-import ru.equalizationofgeodeticnetworks.point.Point;
+import ru.equalizationofgeodeticnetworks.model.point.Point;
 
 import java.util.List;
 import java.util.Locale;

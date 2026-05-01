@@ -2,8 +2,8 @@ package ru.equalizationofgeodeticnetworks;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ru.equalizationofgeodeticnetworks.adjustment.ParametricAdjustment;
-import ru.equalizationofgeodeticnetworks.point.Point;
+import ru.equalizationofgeodeticnetworks.core.adjustment.coreNetwork.coreNetworkImpl.ParametricAdjustmentEngine;
+import ru.equalizationofgeodeticnetworks.model.point.Point;
 import ru.equalizationofgeodeticnetworks.support.SupportDegreesConverter;
 import ru.equalizationofgeodeticnetworks.support.SupportDimension;
 import ru.equalizationofgeodeticnetworks.support.SupportNet;
@@ -16,7 +16,7 @@ public class EqualizationOfGeodeticNetworksApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(EqualizationOfGeodeticNetworksApplication.class, args);
-        SupportNet sNet = new SupportNet(3, 0.010, new ParametricAdjustment());
+        SupportNet sNet = new SupportNet(3, 0.010, new ParametricAdjustmentEngine());
 
         var list = new ArrayList<Point>() {{
             add(new Point("H", 5419.866, 8258.602));
@@ -35,7 +35,7 @@ public class EqualizationOfGeodeticNetworksApplication {
 
         sNet.addDimensions(l2);
 
-        var pol3 = new SupportNet(3, 0.01, new ParametricAdjustment());
+        var pol3 = new SupportNet(3, 0.01, new ParametricAdjustmentEngine());
         var l3 = new ArrayList<Point>(
                 List.of(
                         new Point("A1", 2009.11, 2081.49),

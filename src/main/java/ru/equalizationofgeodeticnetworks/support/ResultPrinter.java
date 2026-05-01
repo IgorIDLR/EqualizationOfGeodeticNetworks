@@ -5,7 +5,7 @@ import ru.equalizationofgeodeticnetworks.measurement.DistanceMeasurement;
 import ru.equalizationofgeodeticnetworks.measurement.IndexMapper;
 import ru.equalizationofgeodeticnetworks.measurement.Measurement;
 import ru.equalizationofgeodeticnetworks.network.NetworkData;
-import ru.equalizationofgeodeticnetworks.point.Point;
+import ru.equalizationofgeodeticnetworks.model.point.Point;
 
 import java.util.List;
 import java.util.Locale;
